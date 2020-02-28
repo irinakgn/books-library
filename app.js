@@ -23,7 +23,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-//app.use(session({ secret: 'library' }));
+app.use(session({ secret: 'library' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 require('./src/config/passport.js')(app);
 

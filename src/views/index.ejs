@@ -33,30 +33,27 @@
           <li>
             <a href="<%=nav[i].link%>"><%=nav[i].title%></a>
           </li>
-
           <%}%>
-        </ul>
-        <ul class="nav navbar-right navbar-nav">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
-            <ul class="dropdown-menu" style="padding:12px;">
-              <form class="form-inline">
-                <button type="submit" class="btn btn-default pull-right"><i
-                    class="glyphicon glyphicon-search"></i></button><input type="text" class="form-control pull-left"
-                  placeholder="Search">
-              </form>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+      </ul>
+      <ul class="nav navbar-right navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
+          <ul class="dropdown-menu" style="padding:12px;">
+            <form class="form-inline">
+              <button type="submit" class="btn btn-default pull-right"><i class="glyphicon glyphicon-search"></i></button><input type="text" class="form-control pull-left" placeholder="Search">
+            </form>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-  <div id="masthead">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-7">
-          <h1><%=title%>
+<div id="masthead">  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <h1><%=title%>
           <p class="lead"></p>
           </h1>
     </div>
@@ -98,16 +95,16 @@
               <div class="row">
                 <br>
                 <div class="col-md-2 col-sm-3 text-center">
-                  Sing Up! Or <a href='/auth/signin'>sign in </a>
+                  <h1>Sign Up!</h1> Or <a href='/auth/signin'>sign in</a>
                   <form name="signUpForm" action="/auth/signUp" method="post">
                     UserName: <input name="username" id="username" /><br />
                     Password: <input name="password" id="password" /><br />
-                    <input type="submit" value="Sign up" />
+                    <button type="submit">Sign up</button>
+                    <p></p>
                   </form>
                 </div>
               </div>
               <hr>
-
 
 
             </div>
@@ -127,7 +124,7 @@
       <div class="row">
         <div class="col col-sm-12">
 
-          <h1>Follow Us</h1>
+          <h3>Follow Us</h3>
           <div class="btn-group">
             <a class="btn btn-twitter btn-lg" href="#"><i class="icon-twitter icon-large"></i> Twitter</a>
             <a class="btn btn-facebook btn-lg" href="#"><i class="icon-facebook icon-large"></i> Facebook</a>

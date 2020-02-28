@@ -25,6 +25,7 @@ function router(nav) {
                     const results = await col.insertOne(user);
                     debug(results);
                     req.login(results.ops[0], () => {
+                        console.log('log in......................')
                         res.redirect('/auth/profile');
                     });
                 } catch (err) {
@@ -45,6 +46,7 @@ function router(nav) {
         }));
     authRouter.route('/profile')
         .all((req, res, next) => {
+            console.log('wtf .....', req.user)
             if (req.user) {
                 next();
             } else {
