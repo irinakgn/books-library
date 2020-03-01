@@ -11,20 +11,28 @@ function bookController(bookService, nav) {
             let client;
             try {
                 client = await MongoClient.connect(url);
-                debug('Connected correctly to server');
 
                 const db = client.db(dbName);
 
                 const col = await db.collection('books');
 
-                const books = await col.find().toArray();
+                const booksModel = await col.find().toArray();
+
+                const bookQueue = []
+                for (const bookModel of booksModel) {
+                    if (bookModel.bookId) {
+                        bookQueue.push({ ...bookModel, details: await bookService.getBookById(bookModel.bookId) })
+                    }
+                }
+
+                const booksWithDetials = await Promise.all(bookQueue);
 
                 res.render(
                     'bookListView',
                     {
                         nav,
-                        title: 'Library',
-                        books
+                        title: 'Books',
+                        books: booksWithDetials
                     }
                 );
             } catch (err) {
@@ -51,7 +59,7 @@ function bookController(bookService, nav) {
                 const col = await db.collection('books');
 
                 const book = await col.findOne({ _id: new ObjectID(id) });
-                debug(book);
+
 
 
                 book.details = await bookService.getBookById(book.bookId);
@@ -59,7 +67,7 @@ function bookController(bookService, nav) {
                     'bookView',
                     {
                         nav,
-                        title: 'Library',
+                        title: 'Book',
                         book
                     }
                 );

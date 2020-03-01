@@ -1,6 +1,6 @@
 const axios = require('axios');
 const xml2js = require('xml2js');
-const debug = require('debug')('app:goodreadsService');
+// const debug = require('debug')('app:goodreadsService');
 
 const parser = xml2js.Parser({ explicitArray: false });
 
@@ -13,7 +13,7 @@ function goodreadsService() {
                         if (err) {
                             debug(err);
                         } else {
-                            debug(result);
+                            // debug(result);
                             resolve(result.GoodreadsResponse.book);
                         }
                     });
