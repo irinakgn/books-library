@@ -12,7 +12,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 
-
 app.use(morgan('tiny'));
 
 app.use((req, res, next) => {
@@ -49,15 +48,15 @@ app.use('/admin', adminRouter);
 app.use('/auth', authRouter);
 
 
-
 app.get('/', (request, response) => {
   response.render(
     'index',
     {
       nav: [{ link: '/books', title: 'Books' },
-      { link: '/authors', title: 'Authors' }],
-      title: 'Library'
-    });
+        { link: '/authors', title: 'Authors' }],
+      title: 'Library',
+    },
+  );
 });
 
 

@@ -99,9 +99,9 @@
                             <div class="row">
                                 <br>
                                 <div class="col-md-2 col-sm-3 text-center">
-                                    <a class="story-title" href="#"><img alt=""
-                                            src="http://api.randomuser.me/portraits/thumb/men/58.jpg" st
-                                            yle="width:100px;height:100px" class="img-circle"></a>
+                                    <a class="story-title" href="#">
+                                        <img alt="" src="<%=book.details.image_url%>"
+                                            style="width:100px;height:100px"></a>
                                 </div>
                                 <div class="col-md-10 col-sm-9">
                                     <h3><%=book.title%></h3>
@@ -114,7 +114,7 @@
                                         </div>
                                         <div class="col-xs-3"></div>
                                     </div>
-                                    <br><%=book.details.description%><br>
+                                    <br><%-book.details.description%><br>
                                 </div>
                             </div>
                             <hr>
@@ -147,18 +147,7 @@
 
         <div class="container" id="footer">
             <div class="row">
-                <div class="col col-sm-12">
 
-                    <h1>Follow Us</h1>
-                    <div class="btn-group">
-                        <a class="btn btn-twitter btn-lg" href="#"><i class="icon-twitter icon-large"></i> Twitter</a>
-                        <a class="btn btn-facebook btn-lg" href="#"><i class="icon-facebook icon-large"></i>
-                            Facebook</a>
-                        <a class="btn btn-google-plus btn-lg" href="#"><i class="icon-google-plus icon-large"></i>
-                            Google+</a>
-                    </div>
-
-                </div>
             </div>
         </div>
 
