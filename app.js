@@ -48,10 +48,14 @@ app.use('/admin', adminRouter);
 app.use('/auth', authRouter);
 
 
-app.get('/', (request, response) => {
+app.get('/', (req, response) => {
+
+  console.log('is user athenthicated ', req.isAuthenticated())
+
   response.render(
     'index',
     {
+      isAuthenticated: req.isAuthenticated(),
       nav: [{ link: '/books', title: 'Books' }],
       title: 'Library',
     },

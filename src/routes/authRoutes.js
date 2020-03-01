@@ -25,7 +25,6 @@ function router(nav) {
                     const results = await col.insertOne(user);
                     debug(results);
                     req.login(results.ops[0], () => {
-                        console.log('log in......................')
                         res.redirect('/auth/profile');
                     });
                 } catch (err) {
@@ -35,7 +34,9 @@ function router(nav) {
         });
     authRouter.route('/signin')
         .get((req, res) => {
+
             res.render('signin', {
+                isAuthenticated: req.isAuthenticated(),
                 nav,
                 title: 'Sign In'
             });
@@ -46,9 +47,8 @@ function router(nav) {
         }));
     authRouter.route('/profile')
         .all((req, res, next) => {
-            console.log('wtf .....', req.user)
             if (req.user) {
-                next();
+                res.redirect('/books');
             } else {
                 res.redirect('/');
             }
@@ -56,6 +56,12 @@ function router(nav) {
         .get((req, res) => {
             res.json(req.user);
         });
+
+    authRouter.get('/logout', (req, res) => {
+        req.logout();
+        console.log('wtf......', req.isAuthenticated())
+        res.redirect('/');
+    });
     return authRouter;
 }
 

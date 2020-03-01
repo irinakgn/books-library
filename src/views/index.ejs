@@ -72,21 +72,44 @@
 
           <div class="panel">
             <div class="panel-body">
-
-
-
               <!--/stories-->
               <div class="row">
                 <br>
-                <div class="col-md-2 col-sm-3 text-center">
+                <div class="col-md-4 col-sm-6">
+
+                  <% if(isAuthenticated === false){ %>
                   <h1>Sign Up!</h1> Or <a href='/auth/signin'>sign in</a>
+                  <br /><br /><br />
                   <form name="signUpForm" action="/auth/signUp" method="post">
-                    UserName: <input name="username" id="username" /><br />
-                    Password: <input name="password" id="password" /><br />
-                    <button type="submit">Sign up</button>
-                    <p></p>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Username</label>
+                      <input id="username" name="username" type="text" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="User Name">
+
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input id="password" name="password" type="password" class="form-control"
+                        id="exampleInputPassword1" placeholder="Password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
                   </form>
+
+
+                  <% } else{ %>
+                  <div>
+                    You're signed in <a class="btn btn-default" href="/auth/logout">Sign Out</a>
+                  </div>
+                  <% } %>
+
+
                 </div>
+
+
+
+
+
               </div>
               <hr>
 
