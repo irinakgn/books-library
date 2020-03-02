@@ -1,5 +1,6 @@
 {
   "name": "library",
+  "repository": "git@github.com:irinakgn/books-library.git",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
