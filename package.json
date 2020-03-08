@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "DEBUG=app,app:* nodemon app.js",
-    "lint": "eslint app.js"
+    "lint": "eslint src/**/*.js",
+    "seed:db": "node tasks/mongod-seed.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "express": "4.17.1",
     "express-session": "1.17.0",
     "jquery": "3.4.0",
+    "lodash": "4.17.15",
     "mongodb": "3.5.3",
     "morgan": "1.9.1",
     "nodemon": "2.0.2",
@@ -33,7 +35,8 @@
   "devDependencies": {
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "14.0.0",
-    "eslint-plugin-import": "2.20.1"
+    "eslint-plugin-import": "2.20.1",
+    "prettier": "1.19.1"
   },
   "nodemonConfig": {
     "restartable": "rs",

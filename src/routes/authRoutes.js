@@ -1,68 +1,57 @@
-const express = require('express');
-const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:authRoutes');
+const express = require('express');
 const passport = require('passport');
+const userController = require('../controllers/userController');
+
 
 const authRouter = express.Router();
 
 function router(nav) {
-    authRouter.route('/signUp')
-        .post((req, res) => {
-            const { username, password } = req.body;
-            const url = 'mongodb://localhost:27017';
-            const dbName = 'libraryApp';
+  authRouter.route('/signup')
+    .post((req, res) => {
+      try {
+        const { username, password } = req.body;
 
-            (async function addUser() {
-                let client;
-                try {
-                    client = await MongoClient.connect(url);
-                    debug('Connected correctly to server');
+        const user = userController.addUser(username, password);
 
-                    const db = client.db(dbName);
-
-                    const col = db.collection('users');
-                    const user = { username, password };
-                    const results = await col.insertOne(user);
-                    debug(results);
-                    req.login(results.ops[0], () => {
-                        res.redirect('/auth/profile');
-                    });
-                } catch (err) {
-                    debug(err);
-                }
-            }());
+        req.login(user, () => {
+          res.redirect('/auth/profile');
         });
-    authRouter.route('/signin')
-        .get((req, res) => {
-
-            res.render('signin', {
-                isAuthenticated: req.isAuthenticated(),
-                nav,
-                title: 'Sign In'
-            });
-        })
-        .post(passport.authenticate('local', {
-            successRedirect: '/auth/profile',
-            failureRedirect: '/'
-        }));
-    authRouter.route('/profile')
-        .all((req, res, next) => {
-            if (req.user) {
-                res.redirect('/books');
-            } else {
-                res.redirect('/');
-            }
-        })
-        .get((req, res) => {
-            res.json(req.user);
-        });
-
-    authRouter.get('/logout', (req, res) => {
-        req.logout();
-        console.log('wtf......', req.isAuthenticated())
-        res.redirect('/');
+      } catch (e) {
+        debug(e);
+      }
     });
-    return authRouter;
+
+  authRouter.route('/signup')
+    .get((req, res) => {
+      res.render('signUp', {
+        isAuthenticated: req.isAuthenticated(),
+        nav,
+        title: 'Sign Up',
+      });
+    })
+    .post(passport.authenticate('local', {
+      successRedirect: '/auth/profile',
+      failureRedirect: '/',
+    }));
+  authRouter.route('/profile')
+    .all((req, res) => {
+      if (req.user) {
+        res.redirect('/books');
+      } else {
+        res.redirect('/');
+      }
+    })
+    .get((req, res) => {
+      res.json(req.user);
+    });
+
+  authRouter.get('/logout', (req, res) => {
+    req.logout();
+
+    res.redirect('/');
+  });
+  return authRouter;
 }
 
 
