@@ -47,10 +47,10 @@ app.use('/auth', authRouter);
 
 
 app.get('/', (req, response) => {
-
   response.render(
     'signIn',
     {
+      error: null,
       isAuthenticated: req.isAuthenticated(),
       nav: [{ link: '/books', title: 'Books' }],
       title: 'Library',

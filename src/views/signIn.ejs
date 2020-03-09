@@ -35,7 +35,6 @@
                     </li>
                     <%}%>
       </ul>
-      
     </nav>
   </div>
 </header>
@@ -69,7 +68,7 @@
                                     <% if(isAuthenticated === false){ %>
                                     <h1>Sign In</h1> Or <a class="btn btn-default" href='/auth/signup'>sign up</a>
                                     <br /><br /><br />
-                                    <form name="signUpForm" action="/auth/sign-in" method="post">
+                                    <form name="signUpForm" action="/auth/signin" method="post">
                                         <div class="form-group">
                                             <label for="username">User Name</label>
                                             <input id="username" name="username" type="text" class="form-control"
@@ -90,7 +89,14 @@
                                         You're signed in <a class="btn btn-default" href="/auth/logout">Sign Out</a>
                                     </div>
                                     <% } %>
-
+                                    <% if(!!error){ %>
+                                    <br />
+                                    <div class="alert alert-danger" role="alert">
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <span class="sr-only">Error:</span>
+                                        <%=error %>
+                                    </div>
+                                    <% } %>
 
                                 </div>
                             </div>

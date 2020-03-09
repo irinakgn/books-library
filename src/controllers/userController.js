@@ -7,24 +7,43 @@ const url = 'mongodb://localhost:27017';
 const dbName = 'libraryApp';
 
 const addUser = async (username, password) => {
-  let client;
-  try {
-    client = await MongoClient.connect(url);
-    debug('Connected correctly to server');
+  const client = await MongoClient.connect(url);
+  debug('Connected correctly to server');
 
-    const db = client.db(dbName);
+  const db = client.db(dbName);
 
-    const col = db.collection('users');
-    const userData = { username, password };
-    const results = await col.insertOne(userData);
-    debug(results);
+  const users = db.collection('users');
+  const userData = { username, password };
+  const results = await users.insertOne(userData);
+  debug(results);
 
-    const user = get(results, 'ops.0', {});
-    return user;
-  } catch (err) {
-    debug(err);
+  const user = get(results, 'ops.0', {});
+  return user;
+};
+
+const authenticateUser = async (userName, password) => {
+  const client = await MongoClient.connect(url);
+  debug('Connected correctly to server');
+
+  const db = client.db(dbName);
+
+  const users = db.collection('users');
+  const results = await users.findOne({
+    username: userName,
+  });
+
+
+  debug('log in', results);
+  if (results !== null) {
+    if (results.password === password) {
+      return {
+        username:	results.username,
+      };
+    }
+  } else {
+    return null;
   }
 };
 
 
-module.exports = { addUser };
+module.exports = { addUser, authenticateUser };

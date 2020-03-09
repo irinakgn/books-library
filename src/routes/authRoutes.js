@@ -6,7 +6,29 @@ const userController = require('../controllers/userController');
 
 const authRouter = express.Router();
 
-function router(nav) {
+const router = (nav) => {
+  authRouter.route('/signin').post(async (req, res) => {
+    const { username, password } = req.body;
+
+    const user = await userController.authenticateUser(username, password);
+    console.log('.................', user);
+    if (user !== null) {
+      req.login(user, () => {
+        res.redirect('/books');
+      });
+    } else {
+      res.render(
+        'signIn',
+        {
+          error: 'Cannot Sign User In!',
+          isAuthenticated: false,
+          nav: [{ link: '/books', title: 'Books' }],
+          title: 'Library',
+        },
+      );
+    }
+  });
+
   authRouter.route('/signup')
     .post((req, res) => {
       try {
@@ -34,25 +56,26 @@ function router(nav) {
       successRedirect: '/auth/profile',
       failureRedirect: '/',
     }));
-  authRouter.route('/profile')
-    .all((req, res) => {
-      if (req.user) {
-        res.redirect('/books');
-      } else {
-        res.redirect('/');
-      }
-    })
-    .get((req, res) => {
-      res.json(req.user);
-    });
+  // authRouter.route('/profile')
+  //   .all((req, res) => {
+  //     if (req.user) {
+  //       res.redirect('/books');
+  //     } else {
+  //       res.redirect('/');
+  //     }
+  //   })
+  //   .get((req, res) => {
+  //     res.json(req.user);
+  //   });
+
 
   authRouter.get('/logout', (req, res) => {
     req.logout();
-
     res.redirect('/');
   });
+
   return authRouter;
-}
+};
 
 
 module.exports = router;

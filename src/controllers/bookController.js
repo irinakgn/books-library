@@ -18,8 +18,10 @@ function bookController(bookService, nav) {
         const booksModel = await col.find().toArray();
 
         const bookQueue = [];
+        // eslint-disable-next-line no-restricted-syntax
         for (const bookModel of booksModel) {
           if (bookModel.bookId) {
+            // eslint-disable-next-line no-await-in-loop
             bookQueue.push({ ...bookModel, details: await bookService.getBookById(bookModel.bookId) });
           }
         }
