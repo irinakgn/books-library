@@ -2,18 +2,32 @@ const { get } = require('lodash');
 const debug = require('debug')('app:userController');
 const { MongoClient } = require('mongodb');
 
-// TODO: convert this to env settings
-const url = 'mongodb://localhost:27017';
-const dbName = 'libraryApp';
+const config = require('config');
 
-const addUser = async (username, password) => {
-  const client = await MongoClient.connect(url);
+const dbConfig = config.get('dbConfig');
+
+
+const addUser = async (userName, password) => {
+  const client = await MongoClient.connect(dbConfig.host);
   debug('Connected correctly to server');
 
-  const db = client.db(dbName);
+  const db = client.db(dbConfig.collectionName);
+
 
   const users = db.collection('users');
-  const userData = { username, password };
+  const existingUser = await users.findOne({
+    username: userName,
+  });
+
+  if (existingUser) {
+    return null;
+  }
+
+  const userData = {
+    username: userName,
+    password,
+  };
+
   const results = await users.insertOne(userData);
   debug(results);
 
@@ -22,10 +36,10 @@ const addUser = async (username, password) => {
 };
 
 const authenticateUser = async (userName, password) => {
-  const client = await MongoClient.connect(url);
+  const client = await MongoClient.connect(dbConfig.host);
   debug('Connected correctly to server');
 
-  const db = client.db(dbName);
+  const db = client.db(dbConfig.collectionName);
 
   const users = db.collection('users');
   const results = await users.findOne({
@@ -33,7 +47,6 @@ const authenticateUser = async (userName, password) => {
   });
 
 
-  debug('log in', results);
   if (results !== null) {
     if (results.password === password) {
       return {

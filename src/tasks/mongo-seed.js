@@ -48,7 +48,6 @@ const books = [
 
 
 const init = async () => {
-
   const URL = 'mongodb://localhost:27017';
   const DB_NAME = 'libraryApp';
 
@@ -59,7 +58,6 @@ const init = async () => {
 
     const db = client.db(DB_NAME);
     const response = await db.collection('books').insertMany(books);
-    debug(JSON.stringify(response, null, 2));
   } catch (err) {
     debug(err.stack);
   }

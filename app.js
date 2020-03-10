@@ -37,6 +37,7 @@ app.set('view engine', 'ejs');
 
 const nav = [
   { link: '/books', title: 'Books' },
+  { link: '/add-books', title: 'Add Book' },
 ];
 
 const bookRouter = require('./src/routes/bookRoutes')(nav);
@@ -52,7 +53,7 @@ app.get('/', (req, response) => {
     {
       error: null,
       isAuthenticated: req.isAuthenticated(),
-      nav: [{ link: '/books', title: 'Books' }],
+      nav,
       title: 'Library',
     },
   );

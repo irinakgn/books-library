@@ -11,7 +11,7 @@ const router = (nav) => {
     const { username, password } = req.body;
 
     const user = await userController.authenticateUser(username, password);
-    console.log('.................', user);
+
     if (user !== null) {
       req.login(user, () => {
         res.redirect('/books');
@@ -30,15 +30,24 @@ const router = (nav) => {
   });
 
   authRouter.route('/signup')
-    .post((req, res) => {
+    .post(async (req, res) => {
       try {
         const { username, password } = req.body;
 
-        const user = userController.addUser(username, password);
+        const user = await userController.addUser(username, password);
 
-        req.login(user, () => {
-          res.redirect('/auth/profile');
-        });
+        if (user !== null) {
+          req.login(user, () => {
+            res.redirect('/auth/profile');
+          });
+        } else {
+          res.render('signUp', {
+            error: 'User Exists Already!',
+            isAuthenticated: req.isAuthenticated(),
+            nav,
+            title: 'Sign Up',
+          });
+        }
       } catch (e) {
         debug(e);
       }
@@ -47,6 +56,7 @@ const router = (nav) => {
   authRouter.route('/signup')
     .get((req, res) => {
       res.render('signUp', {
+        error: null,
         isAuthenticated: req.isAuthenticated(),
         nav,
         title: 'Sign Up',
@@ -56,17 +66,17 @@ const router = (nav) => {
       successRedirect: '/auth/profile',
       failureRedirect: '/',
     }));
-  // authRouter.route('/profile')
-  //   .all((req, res) => {
-  //     if (req.user) {
-  //       res.redirect('/books');
-  //     } else {
-  //       res.redirect('/');
-  //     }
-  //   })
-  //   .get((req, res) => {
-  //     res.json(req.user);
-  //   });
+  authRouter.route('/profile')
+    .all((req, res) => {
+      if (req.user) {
+        res.redirect('/books');
+      } else {
+        res.redirect('/');
+      }
+    })
+    .get((req, res) => {
+      res.json(req.user);
+    });
 
 
   authRouter.get('/logout', (req, res) => {
