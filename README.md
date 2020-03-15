@@ -28,7 +28,7 @@ followed by
 
 ```
 yarn seed:db 
-``
+```
 
 And 
 
@@ -38,19 +38,11 @@ yarn start
 
 to start the project.
 
-
-
 ```
 Give an example
 ```
 
 ### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Deployment
 
