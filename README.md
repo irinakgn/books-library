@@ -8,39 +8,41 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+First run the following command to install all of the project dependecies. 
 
 ```
-
+yarn 
 ```
 
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
 
-Thes first step is to run:
+
+Thes first step is to go to the following file `./config/default.json` and config your `mongodb` connection string and `port`, that will be used by nodejs to lounge your application :
 
 ```
-yarn 
+{
+	"dbConfig": {
+		"host": "mongodb://localhost:27017",
+		"collectionName": "libraryApp"
+	}
+	port: 9000
+}
+
 ```
 
-followed by 
-
+followed by seeding command
 ```
 yarn seed:db 
 ```
-
-And 
-
+and the commans below to star the project
 ```
 yarn start
 ```
-
 to start the project.
 
-```
-Give an example
-```
+
 
 ### And coding style tests
 
