@@ -42,14 +42,6 @@ yarn start
 ```
 to start the project.
 
-
-
-### And coding style tests
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
 * [NodeJs](https://nodejs.org/en/) - The web framework used
