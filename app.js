@@ -26,7 +26,7 @@ app.use(session({ secret: 'library' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./src/config/passport.js')(app);
+require('./src/passport')(app);
 
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
@@ -37,26 +37,23 @@ app.set('view engine', 'ejs');
 
 const nav = [
   { link: '/books', title: 'Books' },
+  { link: '/add-books', title: 'Add Book' },
 ];
 
 const bookRouter = require('./src/routes/bookRoutes')(nav);
-const adminRouter = require('./src/routes/adminRoutes')(nav);
 const authRouter = require('./src/routes/authRoutes')(nav);
 
 app.use('/books', bookRouter);
-app.use('/admin', adminRouter);
 app.use('/auth', authRouter);
 
 
 app.get('/', (req, response) => {
-
-  console.log('is user athenthicated ', req.isAuthenticated())
-
   response.render(
-    'index',
+    'signIn',
     {
+      error: null,
       isAuthenticated: req.isAuthenticated(),
-      nav: [{ link: '/books', title: 'Books' }],
+      nav,
       title: 'Library',
     },
   );

@@ -1,69 +1,91 @@
-const express = require('express');
-const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:authRoutes');
+const express = require('express');
 const passport = require('passport');
+const userController = require('../controllers/userController');
+
 
 const authRouter = express.Router();
 
-function router(nav) {
-    authRouter.route('/signUp')
-        .post((req, res) => {
-            const { username, password } = req.body;
-            const url = 'mongodb://localhost:27017';
-            const dbName = 'libraryApp';
+const router = (nav) => {
+  authRouter.route('/signin').post(async (req, res) => {
+    const { username, password } = req.body;
 
-            (async function addUser() {
-                let client;
-                try {
-                    client = await MongoClient.connect(url);
-                    debug('Connected correctly to server');
+    const user = await userController.authenticateUser(username, password);
 
-                    const db = client.db(dbName);
+    if (user !== null) {
+      req.login(user, () => {
+        res.redirect('/books');
+      });
+    } else {
+      res.render(
+        'signIn',
+        {
+          error: 'Cannot Sign User In!',
+          isAuthenticated: false,
+          nav: [{ link: '/books', title: 'Books' }],
+          title: 'Library',
+        },
+      );
+    }
+  });
 
-                    const col = db.collection('users');
-                    const user = { username, password };
-                    const results = await col.insertOne(user);
-                    debug(results);
-                    req.login(results.ops[0], () => {
-                        res.redirect('/auth/profile');
-                    });
-                } catch (err) {
-                    debug(err);
-                }
-            }());
-        });
-    authRouter.route('/signin')
-        .get((req, res) => {
+  authRouter.route('/signup')
+    .post(async (req, res) => {
+      try {
+        const { username, password } = req.body;
 
-            res.render('signin', {
-                isAuthenticated: req.isAuthenticated(),
-                nav,
-                title: 'Sign In'
-            });
-        })
-        .post(passport.authenticate('local', {
-            successRedirect: '/auth/profile',
-            failureRedirect: '/'
-        }));
-    authRouter.route('/profile')
-        .all((req, res, next) => {
-            if (req.user) {
-                res.redirect('/books');
-            } else {
-                res.redirect('/');
-            }
-        })
-        .get((req, res) => {
-            res.json(req.user);
-        });
+        const user = await userController.addUser(username, password);
 
-    authRouter.get('/logout', (req, res) => {
-        req.logout();
-        console.log('wtf......', req.isAuthenticated())
-        res.redirect('/');
+        if (user !== null) {
+          req.login(user, () => {
+            res.redirect('/auth/profile');
+          });
+        } else {
+          res.render('signUp', {
+            error: 'User Exists Already!',
+            isAuthenticated: req.isAuthenticated(),
+            nav,
+            title: 'Sign Up',
+          });
+        }
+      } catch (e) {
+        debug(e);
+      }
     });
-    return authRouter;
-}
+
+  authRouter.route('/signup')
+    .get((req, res) => {
+      res.render('signUp', {
+        error: null,
+        isAuthenticated: req.isAuthenticated(),
+        nav,
+        title: 'Sign Up',
+      });
+    })
+    .post(passport.authenticate('local', {
+      successRedirect: '/auth/profile',
+      failureRedirect: '/',
+    }));
+  authRouter.route('/profile')
+    .all((req, res) => {
+      if (req.user) {
+        res.redirect('/books');
+      } else {
+        res.redirect('/');
+      }
+    })
+    .get((req, res) => {
+      res.json(req.user);
+    });
+
+
+  authRouter.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
+
+  return authRouter;
+};
 
 
 module.exports = router;
