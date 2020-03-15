@@ -1,6 +1,6 @@
 # Books Library
 
-This project is used to catologue books. It allows one to easily add books, which are then cross referenced with Goodreads api. This project was written using nodejs, ejs and mongodb.
+This project is used to catologue books. It allows one to easily add books, which are then cross referenced with Goodreads api. This project was written using nodejs,mongodb, and ejs templates.
 
 ## Getting Started
 
@@ -23,11 +23,11 @@ Thes first step is to go to the following file `./config/default.json` and confi
 
 ```
 {
-	"dbConfig": {
-		"host": "mongodb://localhost:27017",
-		"collectionName": "libraryApp"
-	}
-	port: 9000
+  "dbConfig": {
+     "host": "mongodb://localhost:27017",
+     "collectionName": "libraryApp"
+   }
+   "port": 9000
 }
 
 ```
@@ -52,14 +52,14 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [NodeJs](https://nodejs.org/en/) - The web framework used
+* [MongoDB](https://www.mongodb.com/) - Document Storage
+* [ejs](https://ejs.co/) - Templating engine
 
 
 ## Authors
 
-* **Irina Kagan** - *Initial work* - [PurpleBooth](https://github.com/irinakgn)
+* **Irina Kagan** (https://github.com/irinakgn)
 
 
 ## License
